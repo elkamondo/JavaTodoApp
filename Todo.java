@@ -30,6 +30,10 @@ public class Todo implements Comparable<Todo> {
     return createdAt;
   }
 
+  public String getFormattedDate() {
+    return createdAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+  }
+
   public boolean isCompleted() {
     return completed;
   }
@@ -68,12 +72,9 @@ public class Todo implements Comparable<Todo> {
 
   @Override
   public String toString() {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    String dateCreatedAt = createdAt.format(formatter);
-
     return String.format(
       "Todo={id=%s, name='%s', completed=%b, createdAt=%s}",
-      id, name, completed, dateCreatedAt
+      id, name, completed, getFormattedDate()
     );
   }
 }
