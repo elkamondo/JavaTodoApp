@@ -3,6 +3,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TodoList {
 
@@ -66,29 +67,30 @@ public class TodoList {
   }
 
   public void showActiveTodos() {
-    if (todos.isEmpty()) {
-      System.out.println("No active todos.");
-      return;
-    }
-
     Predicate<Todo> isCompleted = Todo::isCompleted;
+    TreeSet<Todo> activeTodos = todos.stream()
+      .filter(isCompleted.negate())
+      .collect(Collectors.toCollection(TreeSet::new));
 
-    printTableHeader();
-    todos.stream()
-         .filter(isCompleted.negate())
-         .forEach(todo -> todo.print());
+    if (activeTodos.isEmpty()) {
+      System.out.println("No active todos.");
+    } else {
+      printTableHeader();
+      activeTodos.forEach(todo -> todo.print());
+    }
   }
 
   public void showCompletedTodos() {
-    if (todos.isEmpty()) {
-      System.out.println("No completed todos.");
-      return;
-    }
+    TreeSet<Todo> completedTodos = todos.stream()
+      .filter(Todo::isCompleted)
+      .collect(Collectors.toCollection(TreeSet::new));
 
-    printTableHeader();
-    todos.stream()
-         .filter(Todo::isCompleted)
-         .forEach(todo -> todo.print());
+    if (completedTodos.isEmpty()) {
+      System.out.println("No completed todos.");
+    } else {
+      printTableHeader();
+      completedTodos.forEach(todo -> todo.print());
+    }
   }
 
   private void printTableHeader() {
