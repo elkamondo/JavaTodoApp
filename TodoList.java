@@ -56,10 +56,20 @@ public class TodoList {
   }
 
   public void showAllTodos() {
+    if (todos.isEmpty()) {
+      System.out.println("No todos.");
+      return;
+    }
+
     todos.forEach(todo -> todo.print());
   }
 
   public void showActiveTodos() {
+    if (todos.isEmpty()) {
+      System.out.println("No active todos.");
+      return;
+    }
+
     Predicate<Todo> isCompleted = Todo::isCompleted;
     todos.stream()
          .filter(isCompleted.negate())
@@ -67,6 +77,11 @@ public class TodoList {
   }
 
   public void showCompletedTodos() {
+    if (todos.isEmpty()) {
+      System.out.println("No completed todos.");
+      return;
+    }
+
     todos.stream()
          .filter(Todo::isCompleted)
          .forEach(todo -> todo.print());
