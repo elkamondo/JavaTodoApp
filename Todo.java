@@ -11,7 +11,7 @@ public class Todo implements Comparable<Todo> {
 
   public Todo(String name) {
     this.name = name;
-    this.id = String.valueOf(Math.abs(hashCode())).substring(0, 8);
+    this.id = String.valueOf(Math.abs(hashCode())).substring(0, 5);
   }
 
   public String getId() {
