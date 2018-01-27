@@ -81,7 +81,7 @@ public class Todo implements Comparable<Todo> {
   public void print() {
     System.out.println(
       String.format(
-        "  %s | %-15s | %-5b | %s",
+        "  %s | %-15s | %-9b | %s",
         id, name, completed, getFormattedDate()
       )
     );
