@@ -61,6 +61,7 @@ public class TodoList {
       return;
     }
 
+    printTableHeader();
     todos.forEach(todo -> todo.print());
   }
 
@@ -71,6 +72,8 @@ public class TodoList {
     }
 
     Predicate<Todo> isCompleted = Todo::isCompleted;
+
+    printTableHeader();
     todos.stream()
          .filter(isCompleted.negate())
          .forEach(todo -> todo.print());
@@ -82,8 +85,17 @@ public class TodoList {
       return;
     }
 
+    printTableHeader();
     todos.stream()
          .filter(Todo::isCompleted)
          .forEach(todo -> todo.print());
+  }
+
+  private void printTableHeader() {
+    System.out.printf(
+      "  %-5s | %-15s | %-5s | %s\n",
+     "id", "name", "completed", "createdAt"
+    );
+    System.out.println("--------------------------------------------------");
   }
 }
