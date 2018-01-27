@@ -63,7 +63,7 @@ public class TodoList {
     }
 
     printTableHeader();
-    todos.forEach(todo -> todo.print());
+    todos.forEach(Todo::print);
   }
 
   public void showActiveTodos() {
@@ -76,7 +76,7 @@ public class TodoList {
       System.out.println("No active todos.");
     } else {
       printTableHeader();
-      activeTodos.forEach(todo -> todo.print());
+      activeTodos.forEach(Todo::print);
     }
   }
 
@@ -89,7 +89,7 @@ public class TodoList {
       System.out.println("No completed todos.");
     } else {
       printTableHeader();
-      completedTodos.forEach(todo -> todo.print());
+      completedTodos.forEach(Todo::print);
     }
   }
 
