@@ -14,6 +14,12 @@ public class Todo implements Comparable<Todo> {
     this.id = String.valueOf(Math.abs(hashCode())).substring(0, 5);
   }
 
+  public Todo(String name, boolean completed, LocalDate createdAt) {
+    this(name);
+    this.completed = completed;
+    this.createdAt = createdAt;
+  }
+
   public String getId() {
     return id;
   }
