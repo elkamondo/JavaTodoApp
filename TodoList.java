@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
@@ -93,9 +97,29 @@ public class TodoList {
     }
   }
 
+  public void saveTodos() throws IOException {
+    Path path = Paths.get("todos.backup");
+    if (Files.notExists(path)) {
+      Files.createFile(path);
+    }
+
+    String content =
+      todos.stream()
+          .map(todo ->
+            String.format(
+              "%s | %b | %s",
+              todo.getName(), todo.isCompleted(), todo.getFormattedDate()
+            )
+          )
+          .collect(Collectors.joining("\n"));
+
+    Files.write(path, content.getBytes());
+    System.out.println("Your todos has been saved successfully.");
+  }
+
   private void printTableHeader() {
     System.out.printf(
-      "  %-5s | %-15s | %-5s | %s\n",
+     "  %-5s | %-15s | %-5s | %s\n",
      "id", "name", "completed", "createdAt"
     );
     System.out.println("--------------------------------------------------");
