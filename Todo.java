@@ -11,13 +11,14 @@ public class Todo implements Comparable<Todo> {
 
   public Todo(String name) {
     this.name = name;
-    this.id = String.valueOf(Math.abs(hashCode())).substring(0, 5);
+    this.id = generateId();
   }
 
   public Todo(String name, boolean completed, LocalDate createdAt) {
-    this(name);
+    this.name = name;
     this.completed = completed;
     this.createdAt = createdAt;
+    this.id = generateId();
   }
 
   public String getId() {
@@ -50,7 +51,7 @@ public class Todo implements Comparable<Todo> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, completed, createdAt);
+    return 31 * Objects.hash(name, completed, createdAt);
   }
 
   @Override
@@ -91,5 +92,10 @@ public class Todo implements Comparable<Todo> {
         id, name, completed, getFormattedDate()
       )
     );
+  }
+
+  private String generateId() {
+    String hash = Integer.toString(Math.abs(hashCode()));
+    return hash.substring(Math.max(0, hash.length() - 5));
   }
 }
