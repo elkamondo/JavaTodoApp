@@ -34,6 +34,10 @@ public class TodoList {
     return todos;
   }
 
+  public boolean isEmpty() {
+    return todos.isEmpty();
+  }
+
   @Override
   public String toString() {
     return todos.toString();
