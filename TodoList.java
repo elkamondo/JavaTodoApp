@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public class TodoList {
 
-  private Set<Todo> todos = new TreeSet<>(
+  public static Comparator<Todo> BY_NAME_THEN_DATE =
     Comparator.comparing(Todo::getCreatedAt)
-              .thenComparing(Todo::getName)
-  );
+              .thenComparing(Todo::getName);
+  private Set<Todo> todos = new TreeSet<>(BY_NAME_THEN_DATE);
 
   public TodoList() {
   }
@@ -87,7 +87,7 @@ public class TodoList {
     Predicate<Todo> isCompleted = Todo::isCompleted;
     TreeSet<Todo> activeTodos = todos.stream()
       .filter(isCompleted.negate())
-      .collect(Collectors.toCollection(TreeSet::new));
+      .collect(Collectors.toCollection(() -> new TreeSet<>(BY_NAME_THEN_DATE)));
 
     if (activeTodos.isEmpty()) {
       System.out.println("No active todos.");
@@ -100,7 +100,7 @@ public class TodoList {
   public void showCompletedTodos() {
     TreeSet<Todo> completedTodos = todos.stream()
       .filter(Todo::isCompleted)
-      .collect(Collectors.toCollection(TreeSet::new));
+      .collect(Collectors.toCollection(() -> new TreeSet<>(BY_NAME_THEN_DATE)));
 
     if (completedTodos.isEmpty()) {
       System.out.println("No completed todos.");
