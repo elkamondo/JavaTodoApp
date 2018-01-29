@@ -35,8 +35,15 @@ public class Main {
           todos.showActiveTodos();
           System.out.println("\nWhich one do you want to complete?");
           System.out.print("Enter the id -> ");
+
           String todoId = in.next();
           in.nextLine();    // Consume the newline character
+
+          if (!todoId.matches("^[0-9]+$")) {
+            System.err.println("Invalid input! You must enter an integer.");
+            continue;
+          }
+
           if (todos.completeTodo(todoId)) {
             System.out.println("Todo has been completed.");
           }
@@ -47,8 +54,15 @@ public class Main {
           todos.showAllTodos();
           System.out.println("\nWhich one do you want to remove?");
           System.out.print("Enter the id -> ");
+
           String todoId = in.next();
           in.nextLine();    // Consume the newline character
+
+          if (!todoId.matches("^[0-9]+$")) {
+            System.err.println("Invalid input! You must enter an integer.");
+            continue;
+          }
+
           if (todos.removeTodo(todoId)) {
             System.out.println("Todo has been removed.");
           }
