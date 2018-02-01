@@ -56,13 +56,17 @@ public class TodoList {
       return false;
     }
 
-    todos.stream()
-         .filter(todo -> todoId.equals(todo.getId()))
-         .findFirst()
-         .get()
-         .complete();
+    Todo completedTodo = todos.stream()
+      .filter(todo -> todoId.equals(todo.getId()))
+      .findFirst()
+      .orElse(new Todo("n/a"));
 
-    return true;
+    if (!completedTodo.getName().equalsIgnoreCase("n/a")) {
+      completedTodo.complete();
+      return true;
+    }
+
+    return false;
   }
 
   public boolean removeTodo(String todoId) {
