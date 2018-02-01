@@ -46,6 +46,8 @@ public class Main {
 
           if (todos.completeTodo(todoId)) {
             System.out.println("Todo has been completed.");
+          } else {
+            System.out.println("There is no todo associated with that id.");
           }
         }
           break;
@@ -65,6 +67,8 @@ public class Main {
 
           if (todos.removeTodo(todoId)) {
             System.out.println("Todo has been removed.");
+          } else {
+            System.out.println("There is no todo associated with that id.");
           }
         }
           break;
