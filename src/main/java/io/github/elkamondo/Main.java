@@ -1,3 +1,8 @@
+package io.github.elkamondo;
+
+import io.github.elkamondo.models.Todo;
+import io.github.elkamondo.models.TodoList;
+
 import java.io.IOException;
 import java.util.Scanner;
 

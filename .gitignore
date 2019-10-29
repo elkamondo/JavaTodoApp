@@ -1,5 +1,9 @@
-# Compiled class file
-*.class
-
-# Backup files
+### Backup files
 *.backup
+
+### Maven
+target/
+
+### Intellij IDEA
+.idea/*
+*.iml
