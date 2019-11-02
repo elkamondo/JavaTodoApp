@@ -47,8 +47,8 @@ public class Todo implements Comparable<Todo> {
         return completed;
     }
 
-    public void complete() {
-        this.completed = true;
+    public void setComplete(boolean isCompleted) {
+        this.completed = isCompleted;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Todo implements Comparable<Todo> {
 
     @Override
     public int compareTo(Todo other) {
-        return name.compareTo(other.name);
+        return id.compareTo(other.id);
     }
 
     @Override

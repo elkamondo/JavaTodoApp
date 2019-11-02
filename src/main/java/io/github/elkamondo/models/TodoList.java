@@ -1,20 +1,18 @@
 package io.github.elkamondo.models;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toCollection;
 
 public class TodoList {
 
-    private static Comparator<Todo> BY_NAME_THEN_DATE =
-            Comparator.comparing(Todo::getCreatedAt)
-                      .thenComparing(Todo::getName);
+    private static Comparator<Todo> BY_ID_THEN_NAME_THEN_DATE =
+            Comparator.comparing(Todo::getId)
+                      .thenComparing(Todo::getName)
+                      .thenComparing(Todo::getCreatedAt);
 
-    private Set<Todo> todos = new TreeSet<>(BY_NAME_THEN_DATE);
+    private Set<Todo> todos = new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE);
 
     public TodoList() {}
 
@@ -36,8 +34,12 @@ public class TodoList {
         return todos.add(todo);
     }
 
-    public void addAll(Collection<? extends Todo> todoList) {
-        todos.addAll(todoList);
+    public boolean addAll(Collection<? extends Todo> todoList) {
+        if (todoList == null) {
+            return false;
+        }
+
+        return todos.addAll(todoList);
     }
 
     public boolean completeTodo(String todoId) {
@@ -45,13 +47,13 @@ public class TodoList {
             return false;
         }
 
-        Todo completedTodo = todos.stream()
-                .filter(todo -> todoId.equals(todo.getId()))
-                .findFirst()
-                .orElse(new Todo("n/a"));
+        final Optional<Todo> completedTodo =
+                todos.stream()
+                     .filter(todo -> todoId.equals(todo.getId()))
+                     .findFirst();
 
-        if (!completedTodo.getName().equalsIgnoreCase("n/a")) {
-            completedTodo.complete();
+        if (completedTodo.isPresent()) {
+            completedTodo.get().setComplete(true);
             return true;
         }
 
@@ -74,13 +76,13 @@ public class TodoList {
         final Predicate<Todo> isCompleted = Todo::isCompleted;
         return todos.stream()
                 .filter(isCompleted.negate())
-                .collect(toCollection(() -> new TreeSet<>(BY_NAME_THEN_DATE)));
+                .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
     }
 
     public Collection<? extends Todo> getCompletedTodos() {
         return todos.stream()
                 .filter(Todo::isCompleted)
-                .collect(toCollection(() -> new TreeSet<>(BY_NAME_THEN_DATE)));
+                .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class TodoUtils {
     private static final String[] CSV_HEADER = { "id", "name", "completed", "createdAt" };
 
     public static boolean saveAsCSV(Collection<? extends Todo> todos, String filename)
-            throws FileNameNotValidException, IOException {
+            throws IOException, FileNameNotValidException {
         if (filename == null || filename.isEmpty()) {
             throw new FileNameNotValidException("You should enter a valid file name.");
         }
