@@ -1,17 +1,27 @@
 package io.github.elkamondo;
 
+import io.github.elkamondo.exceptions.FileNameNotValidException;
 import io.github.elkamondo.models.Todo;
 import io.github.elkamondo.models.TodoList;
+import io.github.elkamondo.utils.TodoUtils;
 
 import java.io.IOException;
 import java.util.Scanner;
 
+import static io.github.elkamondo.utils.TodoUtils.loadFromCSV;
+
 public class Main {
 
   public static void main(String[] args) {
-
+    final String BACKUP_FILENAME = "";
     TodoList todos = new TodoList();
-    todos.retrieveStoredTodos();
+    try {
+      todos.addAll(loadFromCSV(BACKUP_FILENAME));
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    } catch (FileNameNotValidException e) {
+      System.err.println(e.getMessage());
+    }
 
     Scanner in = new Scanner(System.in);
     int userChoice = 0;
@@ -30,14 +40,14 @@ public class Main {
         case 1: {
           System.out.print("Enter the name -> ");
           String todoName = in.nextLine();
-          if (todos.addTodo(new Todo(todoName))) {
+          if (todos.add(new Todo(todoName))) {
             System.out.println("Todo has been added.");
           }
         }
           break;
 
         case 2: {
-          todos.showActiveTodos();
+          TodoUtils.print(todos.getActiveTodos());
           System.out.println("\nWhich one do you want to complete?");
           System.out.print("Enter the id -> ");
 
@@ -58,7 +68,7 @@ public class Main {
           break;
 
         case 3: {
-          todos.showAllTodos();
+          TodoUtils.print(todos.getAllTodos());
           System.out.println("\nWhich one do you want to remove?");
           System.out.print("Enter the id -> ");
 
@@ -79,15 +89,15 @@ public class Main {
           break;
 
         case 4:
-          todos.showAllTodos();
+          TodoUtils.print(todos.getAllTodos());
           break;
 
         case 5:
-          todos.showActiveTodos();
+          TodoUtils.print(todos.getActiveTodos());
           break;
 
         case 6:
-          todos.showCompletedTodos();
+          TodoUtils.print(todos.getCompletedTodos());
           break;
 
         case 7:
@@ -107,10 +117,12 @@ public class Main {
       if (todos.isEmpty()) {
         System.out.println("There is no todos to save.");
       } else {
-        todos.saveTodos();
+        TodoUtils.saveAsCSV(todos.getAllTodos(), BACKUP_FILENAME);
       }
     } catch (IOException e) {
       System.err.println("Can't backup your data!");
+    } catch (FileNameNotValidException e) {
+      e.printStackTrace();
     }
   }
 
