@@ -1,10 +1,12 @@
 package io.github.elkamondo.models;
 
+import io.github.elkamondo.utils.GeneratedIdentifier;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Todo implements Comparable<Todo> {
+public class Todo implements Comparable<Todo>, GeneratedIdentifier {
 
     private final String id;
     private String name;
@@ -14,7 +16,7 @@ public class Todo implements Comparable<Todo> {
 
     public Todo(String name) {
         this.name = name;
-        this.id = generateId();
+        this.id = generateId(8);
     }
 
     public Todo(String id, String name, boolean completed, LocalDateTime createdAt) {
@@ -97,11 +99,6 @@ public class Todo implements Comparable<Todo> {
                 "Todo={id=%s, name='%s', completed=%b, createdAt=%s}",
                 id, name, completed, getFormattedDate()
         );
-    }
-
-    private String generateId() {
-        String hash = Integer.toString(Math.abs(hashCode()));
-        return hash.substring(Math.max(0, hash.length() - 5));
     }
 
 }

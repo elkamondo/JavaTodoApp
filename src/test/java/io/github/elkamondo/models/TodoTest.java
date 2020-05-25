@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,13 +14,14 @@ class TodoTest {
     @DisplayName("Create a todo")
     @Test
     void createTodo() {
-        Todo todo1 = new Todo("Learn Java");
-        int hash = 31 * Objects.hash(null, "Learn Java", false, todo1.getCreatedAt());
+        final Todo todo = new Todo("Learn Java");
 
-        assertTrue(String.valueOf(hash).endsWith(todo1.getId()), "Todo's ID constructed from initial hashCode");
-        assertEquals(todo1.getName(), "Learn Java");
-        assertFalse(todo1.isCompleted(), "Todo's completed state initialized to false");
-        assertNull(todo1.getCompletedAt());
+        assertNotNull(todo.getId());
+        assertEquals(8, todo.getId().length(), "Todo's ID length fixed to 8 characters");
+
+        assertEquals(todo.getName(), "Learn Java");
+        assertFalse(todo.isCompleted(), "Todo's completed state initialized to false");
+        assertNull(todo.getCompletedAt());
     }
 
     @DisplayName("Sort a todo list by name")
