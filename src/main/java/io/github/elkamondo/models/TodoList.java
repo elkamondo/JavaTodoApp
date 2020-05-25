@@ -60,6 +60,24 @@ public class TodoList {
         return false;
     }
 
+    public boolean unCompleteTodo(String todoId) {
+        if (todoId == null) {
+            return false;
+        }
+
+        final Optional<Todo> completedTodo =
+                todos.stream()
+                        .filter(todo -> todoId.equals(todo.getId()))
+                        .findFirst();
+
+        if (completedTodo.isPresent()) {
+            completedTodo.get().setComplete(false);
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean removeTodo(String todoId) {
         if (todoId == null) {
             return false;

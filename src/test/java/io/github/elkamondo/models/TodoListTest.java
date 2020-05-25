@@ -50,6 +50,33 @@ class TodoListTest {
         assertEquals(0, todoList.getActiveTodos().size());
     }
 
+    @DisplayName("Mark a todo as undone")
+    @Test
+    void unCompleteTodo() {
+        final TodoList todoList = new TodoList();
+        todoList.add(new Todo("T1", "Read a book", false, LocalDateTime.now()));
+
+        assertEquals(1, todoList.getAllTodos().size());
+        assertEquals(0, todoList.getCompletedTodos().size());
+        assertEquals(1, todoList.getActiveTodos().size());
+
+        assertFalse(todoList.completeTodo(null));
+        assertEquals(0, todoList.getCompletedTodos().size());
+        assertEquals(1, todoList.getActiveTodos().size());
+
+        assertTrue(todoList.completeTodo("T1"));
+        assertEquals(1, todoList.getCompletedTodos().size());
+        assertEquals(0, todoList.getActiveTodos().size());
+
+        assertTrue(todoList.unCompleteTodo("T1"));
+        assertEquals(0, todoList.getCompletedTodos().size());
+        assertEquals(1, todoList.getActiveTodos().size());
+
+        assertFalse(todoList.unCompleteTodo("XYZ"));
+        assertEquals(0, todoList.getCompletedTodos().size());
+        assertEquals(1, todoList.getActiveTodos().size());
+    }
+
     @DisplayName("Remove a todo")
     @Test
     void removeTodo() {
