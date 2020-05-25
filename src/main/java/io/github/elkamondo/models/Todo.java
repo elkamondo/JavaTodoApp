@@ -10,6 +10,7 @@ public class Todo implements Comparable<Todo> {
     private String name;
     private boolean completed;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime completedAt;
 
     public Todo(String name) {
         this.name = name;
@@ -49,6 +50,14 @@ public class Todo implements Comparable<Todo> {
 
     public void setComplete(boolean isCompleted) {
         this.completed = isCompleted;
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
     }
 
     @Override

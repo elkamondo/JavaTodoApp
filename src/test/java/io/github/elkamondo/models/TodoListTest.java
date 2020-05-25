@@ -30,8 +30,9 @@ class TodoListTest {
     @DisplayName("Complete a todo")
     @Test
     void completeTodo() {
-        TodoList todoList = new TodoList();
-        todoList.add(new Todo("T1", "Watch Movies", false, LocalDateTime.now()));
+        final TodoList todoList = new TodoList();
+        final Todo todo = new Todo("T1", "Watch Movies", false, LocalDateTime.now());
+        todoList.add(todo);
 
         assertEquals(1, todoList.getAllTodos().size());
         assertEquals(0, todoList.getCompletedTodos().size());
@@ -41,7 +42,10 @@ class TodoListTest {
         assertEquals(0, todoList.getCompletedTodos().size());
         assertEquals(1, todoList.getActiveTodos().size());
 
+        assertNull(todo.getCompletedAt());
         assertTrue(todoList.completeTodo("T1"));
+        assertNotNull(todo.getCompletedAt());
+
         assertEquals(1, todoList.getCompletedTodos().size());
         assertEquals(0, todoList.getActiveTodos().size());
 
@@ -54,7 +58,8 @@ class TodoListTest {
     @Test
     void unCompleteTodo() {
         final TodoList todoList = new TodoList();
-        todoList.add(new Todo("T1", "Read a book", false, LocalDateTime.now()));
+        final Todo todo = new Todo("T1", "Read a book", false, LocalDateTime.now());
+        todoList.add(todo);
 
         assertEquals(1, todoList.getAllTodos().size());
         assertEquals(0, todoList.getCompletedTodos().size());
@@ -64,11 +69,17 @@ class TodoListTest {
         assertEquals(0, todoList.getCompletedTodos().size());
         assertEquals(1, todoList.getActiveTodos().size());
 
+        assertNull(todo.getCompletedAt());
         assertTrue(todoList.completeTodo("T1"));
+        assertNotNull(todo.getCompletedAt());
+
         assertEquals(1, todoList.getCompletedTodos().size());
         assertEquals(0, todoList.getActiveTodos().size());
 
+        assertNotNull(todo.getCompletedAt());
         assertTrue(todoList.unCompleteTodo("T1"));
+        assertNull(todo.getCompletedAt());
+
         assertEquals(0, todoList.getCompletedTodos().size());
         assertEquals(1, todoList.getActiveTodos().size());
 

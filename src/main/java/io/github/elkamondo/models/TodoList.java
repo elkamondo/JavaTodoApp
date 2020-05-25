@@ -1,5 +1,6 @@
 package io.github.elkamondo.models;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -53,7 +54,9 @@ public class TodoList {
                      .findFirst();
 
         if (completedTodo.isPresent()) {
-            completedTodo.get().setComplete(true);
+            final Todo todo = completedTodo.get();
+            todo.setComplete(true);
+            todo.setCompletedAt(LocalDateTime.now());
             return true;
         }
 
@@ -71,7 +74,9 @@ public class TodoList {
                         .findFirst();
 
         if (completedTodo.isPresent()) {
-            completedTodo.get().setComplete(false);
+            final Todo todo = completedTodo.get();
+            todo.setComplete(false);
+            todo.setCompletedAt(null);
             return true;
         }
 

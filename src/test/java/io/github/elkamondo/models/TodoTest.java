@@ -21,6 +21,7 @@ class TodoTest {
         assertTrue(String.valueOf(hash).endsWith(todo1.getId()), "Todo's ID constructed from initial hashCode");
         assertEquals(todo1.getName(), "Learn Java");
         assertFalse(todo1.isCompleted(), "Todo's completed state initialized to false");
+        assertNull(todo1.getCompletedAt());
     }
 
     @DisplayName("Sort a todo list by name")
