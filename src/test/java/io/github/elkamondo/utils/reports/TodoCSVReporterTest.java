@@ -1,4 +1,4 @@
-package io.github.elkamondo.utils;
+package io.github.elkamondo.utils.reports;
 
 import io.github.elkamondo.exceptions.FileNameNotValidException;
 import io.github.elkamondo.models.Todo;
@@ -17,16 +17,17 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.*;
 
-class TodoUtilsTest {
+class TodoCSVReporterTest {
 
     private final String BACKUP_FILENAME = "test-todos.csv";
     private static List<Todo> todoList = new ArrayList<>();
+    private final TodoReporter csvReporter = new TodoCSVReporter();
 
     @BeforeAll
     static void setUp() {
-        Todo todo1 = new Todo("Getting started with OCaml");
-        Todo todo2 = new Todo("Eat dinner");
-        Todo todo3 = new Todo("Walk my dog");
+        final Todo todo1 = new Todo("Getting started with OCaml");
+        final Todo todo2 = new Todo("Eat dinner");
+        final Todo todo3 = new Todo("Walk my dog");
         todoList.addAll(asList(todo1, todo2, todo3));
     }
 
@@ -37,40 +38,40 @@ class TodoUtilsTest {
 
     @DisplayName("Save todos to a CSV file")
     @Test
-    void saveAsCSV() throws IOException, FileNameNotValidException {
+    void save() throws IOException, FileNameNotValidException {
         assertThrows(
                 FileNameNotValidException.class,
-                () -> TodoUtils.saveAsCSV(todoList, null),
+                () -> csvReporter.save(todoList, null),
                 "Should be a valid file name");
 
         assertThrows(
                 FileNameNotValidException.class,
-                () -> TodoUtils.saveAsCSV(todoList, ""),
+                () -> csvReporter.save(todoList, ""),
                 "Should be a valid file name");
 
-        assertFalse(TodoUtils.saveAsCSV(null, BACKUP_FILENAME), "Should not accept a null collection");
-        assertTrue(TodoUtils.saveAsCSV(emptyList(), BACKUP_FILENAME), "Should accept empty collections");
-        assertTrue(TodoUtils.saveAsCSV(todoList, BACKUP_FILENAME), "Should save non empty collections");
+        assertFalse(csvReporter.save(null, BACKUP_FILENAME), "Should not accept a null collection");
+        assertTrue(csvReporter.save(emptyList(), BACKUP_FILENAME), "Should accept empty collections");
+        assertTrue(csvReporter.save(todoList, BACKUP_FILENAME), "Should save non empty collections");
     }
 
     @DisplayName("Load todos from a CSV file")
     @Test
-    void loadFromCSV() throws IOException, FileNameNotValidException {
+    void load() throws IOException, FileNameNotValidException {
         assertThrows(
                 FileNameNotValidException.class,
-                () -> TodoUtils.loadFromCSV(null),
+                () -> csvReporter.load(null),
                 "Should be a valid file name");
 
         assertThrows(
                 FileNameNotValidException.class,
-                () -> TodoUtils.loadFromCSV(""),
+                () -> csvReporter.load(""),
                 "Should be a valid file name");
 
 
-        assertEquals(emptyList(), TodoUtils.loadFromCSV("FILE_NOT_EXISTS"));
-        assertTrue(TodoUtils.saveAsCSV(todoList, BACKUP_FILENAME), "Should save todos");
+        assertEquals(emptyList(), csvReporter.load("FILE_NOT_EXISTS"));
+        assertTrue(csvReporter.save(todoList, BACKUP_FILENAME), "Should save todos");
 
-        List<Todo> persistedData = new ArrayList<>(TodoUtils.loadFromCSV(BACKUP_FILENAME));
+        final List<Todo> persistedData = new ArrayList<>(csvReporter.load(BACKUP_FILENAME));
         assertFalse(persistedData.isEmpty(), "Should return a non empty collection");
         assertEquals(3, persistedData.size(), "Should contains 3 todos");
     }

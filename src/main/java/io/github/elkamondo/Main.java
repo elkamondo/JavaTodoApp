@@ -3,21 +3,23 @@ package io.github.elkamondo;
 import io.github.elkamondo.exceptions.FileNameNotValidException;
 import io.github.elkamondo.models.Todo;
 import io.github.elkamondo.models.TodoList;
-import io.github.elkamondo.utils.TodoUtils;
+import io.github.elkamondo.utils.reports.TodoCSVReporter;
+import io.github.elkamondo.utils.reports.TodoReporter;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Scanner;
-
-import static io.github.elkamondo.utils.TodoUtils.loadFromCSV;
 
 public class Main {
 
     public static void main(String[] args) {
         final String BACKUP_FILENAME = "todos.csv";
 
+        final TodoReporter csvReporter = new TodoCSVReporter();
+
         final TodoList todos = new TodoList();
         try {
-            todos.addAll(loadFromCSV(BACKUP_FILENAME));
+            todos.addAll(csvReporter.load(BACKUP_FILENAME));
         } catch (IOException | FileNameNotValidException e) {
             System.err.printf("Can't load data! from file '%s'.%n", BACKUP_FILENAME);
         }
@@ -46,7 +48,7 @@ public class Main {
                     break;
 
                     case 2: {
-                        TodoUtils.print(todos.getActiveTodos());
+                        show(todos.getActiveTodos());
                         System.out.printf("%nWhich one do you want to complete?%n");
 
                         final String todoId = prompt(in);
@@ -61,7 +63,7 @@ public class Main {
                     break;
 
                     case 3: {
-                        TodoUtils.print(todos.getAllTodos());
+                        show(todos.getAllTodos());
                         System.out.printf("%nWhich one do you want to remove?%n");
 
                         final String todoId = prompt(in);
@@ -76,15 +78,15 @@ public class Main {
                     break;
 
                     case 4:
-                        TodoUtils.print(todos.getAllTodos());
+                        show(todos.getAllTodos());
                         break;
 
                     case 5:
-                        TodoUtils.print(todos.getActiveTodos());
+                        show(todos.getActiveTodos());
                         break;
 
                     case 6:
-                        TodoUtils.print(todos.getCompletedTodos());
+                        show(todos.getCompletedTodos());
                         break;
 
                     case 7:
@@ -101,7 +103,7 @@ public class Main {
             if (todos.isEmpty()) {
                 System.out.println("There is no todos to save.");
             } else {
-                TodoUtils.saveAsCSV(todos.getAllTodos(), BACKUP_FILENAME);
+                csvReporter.save(todos.getAllTodos(), BACKUP_FILENAME);
             }
         } catch (IOException | FileNameNotValidException e) {
             System.err.println("Can't backup your data!");
@@ -133,6 +135,25 @@ public class Main {
         System.out.println(" 6) Show completed todos");
         System.out.println(" 7) Quit");
         System.out.printf("%n> ");
+    }
+
+    private static void show(Collection<? extends Todo> todos) {
+        if (todos.isEmpty()) {
+            System.out.println("No todos found.");
+            return;
+        }
+
+        // Print table header
+        System.out.println("+-------+--------------------------------+-----------+--------------------+");
+        System.out.printf("| %-5s | %-30s | %-5s | %-18s |%n",
+                "id", "name", "completed", "createdAt");
+        System.out.println("+-------+--------------------------------+-----------+--------------------+");
+
+        todos.forEach(todo ->
+                System.out.printf("| %s | %-30s | %-9b | %s |%n",
+                        todo.getId(), todo.getName(), todo.isCompleted(), todo.getFormattedDate())
+        );
+        System.out.println("+-------+--------------------------------+-----------+--------------------+");
     }
 
 }
