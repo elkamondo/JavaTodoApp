@@ -4,12 +4,35 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TodoListTest {
+
+    @DisplayName("Create a todo list")
+    @Test
+    void createTodoList() {
+        final TodoList todoList = new TodoList();
+
+        assertEquals(Collections.emptySet(), todoList.getAllTodos());
+        assertEquals(Collections.emptySet(), todoList.getActiveTodos());
+        assertEquals(Collections.emptySet(), todoList.getCompletedTodos());
+
+        assertTrue(todoList.isEmpty());
+        assertEquals("[]", todoList.toString());
+
+        assertTrue(todoList.add(new Todo("Write some Groovy DSLs")));
+
+        assertFalse(todoList.isEmpty());
+        assertNotEquals("[]", todoList.toString());
+
+        assertNotEquals(Collections.emptySet(), todoList.getAllTodos());
+        assertNotEquals(Collections.emptySet(), todoList.getActiveTodos());
+        assertEquals(Collections.emptySet(), todoList.getCompletedTodos());
+    }
 
     @DisplayName("Add todos")
     @Test
@@ -84,6 +107,10 @@ class TodoListTest {
         assertEquals(1, todoList.getActiveTodos().size());
 
         assertFalse(todoList.unCompleteTodo("XYZ"));
+        assertEquals(0, todoList.getCompletedTodos().size());
+        assertEquals(1, todoList.getActiveTodos().size());
+
+        assertFalse(todoList.unCompleteTodo(null));
         assertEquals(0, todoList.getCompletedTodos().size());
         assertEquals(1, todoList.getActiveTodos().size());
     }

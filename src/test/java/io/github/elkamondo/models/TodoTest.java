@@ -19,9 +19,13 @@ class TodoTest {
         assertNotNull(todo.getId());
         assertEquals(8, todo.getId().length(), "Todo's ID length fixed to 8 characters");
 
-        assertEquals(todo.getName(), "Learn Java");
         assertFalse(todo.isCompleted(), "Todo's completed state initialized to false");
         assertNull(todo.getCompletedAt());
+
+        assertEquals(todo.getName(), "Learn Java");
+        todo.setName("Learn Java 14: Records feature");
+        assertNotEquals("Learn Java", todo.getName());
+        assertEquals("Learn Java 14: Records feature", todo.getName());
     }
 
     @DisplayName("Sort a todo list by name")
@@ -46,7 +50,12 @@ class TodoTest {
     void sameTodo() {
         Todo todo1 = new Todo("Shut down Hadoop cluster");
         Todo todo2 = new Todo(todo1.getId(), todo1.getName(), todo1.isCompleted(), todo1.getCreatedAt());
+
         assertEquals(todo1, todo2, "todo1 same as todo2");
+        assertEquals(0, todo1.compareTo(todo2));
+        assertEquals(todo2.hashCode(), todo1.hashCode());
+        assertFalse(todo1.equals(null));
+        assertFalse(todo1.equals(new Object()));
     }
 
 }
