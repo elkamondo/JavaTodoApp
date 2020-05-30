@@ -91,6 +91,25 @@ public class TodoList {
         return todos.removeIf(todo -> todoId.equals(todo.getId()));
     }
 
+    public boolean renameTodo(String todoId, String todoNewName) {
+        if (todoId == null) {
+            return false;
+        }
+
+        final Optional<Todo> completedTodo =
+                todos.stream()
+                      .filter(todo -> todoId.equals(todo.getId()))
+                      .findFirst();
+
+        if (completedTodo.isPresent()) {
+            final Todo todo = completedTodo.get();
+            todo.setName(todoNewName);
+            return true;
+        }
+
+        return false;
+    }
+
     public Collection<? extends Todo> getAllTodos() {
         return todos;
     }

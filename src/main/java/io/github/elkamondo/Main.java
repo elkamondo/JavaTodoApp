@@ -53,55 +53,89 @@ public class Main {
                     break;
 
                     case 2: {
-                        printTodos(todos.getActiveTodos());
-                        System.out.printf("%nWhich one do you want to complete?%n");
+                        final Collection<? extends Todo> activeTodos = todos.getActiveTodos();
+                        printTodos(activeTodos);
 
-                        final String todoId = prompt(in);
-                        if (todoId.isEmpty()) continue;
+                        if (activeTodos.size() > 0) {
+                            System.out.printf("%nWhich one do you want to complete?%n");
 
-                        if (todos.completeTodo(todoId)) {
-                            System.out.println("Todo has been completed.");
-                        } else {
-                            System.out.println("There is no todo associated with that id.");
+                            final String todoId = prompt(in);
+                            if (todoId.isEmpty()) {
+                                System.out.println("Todo's name should not be empty");
+                                continue;
+                            }
+
+                            if (todos.completeTodo(todoId)) {
+                                System.out.println("Todo has been completed.");
+                            } else {
+                                System.out.println("There is no todo associated with that id.");
+                            }
                         }
                     }
                     break;
 
                     case 3: {
-                        printTodos(todos.getAllTodos());
-                        System.out.printf("%nWhich one do you want to remove?%n");
+                        final Collection<? extends Todo> allTodos = todos.getAllTodos();
+                        printTodos(allTodos);
 
-                        final String todoId = prompt(in);
-                        if (todoId.isEmpty()) continue;
+                        if (allTodos.size() > 0) {
+                            System.out.printf("%nWhich one do you want to remove?%n");
 
-                        if (todos.removeTodo(todoId)) {
-                            System.out.println("Todo has been removed.");
-                        } else {
-                            System.out.println("There is no todo associated with that id.");
+                            final String todoId = prompt(in);
+                            if (todoId.isEmpty()) continue;
+
+                            if (todos.removeTodo(todoId)) {
+                                System.out.println("Todo has been removed.");
+                            } else {
+                                System.out.println("There is no todo associated with that id.");
+                            }
                         }
                     }
                     break;
 
-                    case 4:
+                    case 4: {
+                        final Collection<? extends Todo> allTodos = todos.getAllTodos();
+                        printTodos(allTodos);
+
+                        if (allTodos.size() > 0) {
+                            System.out.printf("%nWhich one do you want to rename?%n");
+
+                            final String todoId = prompt(in);
+                            if (todoId.isEmpty()) continue;
+
+                            System.out.print("Enter the new name -> ");
+                            final String todoNewName = in.nextLine();
+                            if (todoNewName.isEmpty()) continue;
+
+                            if (todos.renameTodo(todoId, todoNewName)) {
+                                System.out.println("Todo has been renamed.");
+                            } else {
+                                System.out.println("There is no todo associated with that id.");
+                            }
+                        }
+                    }
+                    break;
+
+                    case 5:
                         printTodos(todos.getAllTodos());
                         break;
 
-                    case 5:
+                    case 6:
                         printTodos(todos.getActiveTodos());
                         break;
 
-                    case 6:
+                    case 7:
                         printTodos(todos.getCompletedTodos());
                         break;
 
-                    case 7:
+                    case 8:
                         System.out.println("Bye!");
                         break;
 
                     default:
                         System.err.println("Please enter a valid option!");
                 }
-            } while (userChoice != 7);
+            } while (userChoice != 8);
         }
 
         try {
@@ -130,10 +164,11 @@ public class Main {
         System.out.println(" 1) Add todo");
         System.out.println(" 2) Complete todo");
         System.out.println(" 3) Remove todo");
-        System.out.println(" 4) Show all todos");
-        System.out.println(" 5) Show active todos");
-        System.out.println(" 6) Show completed todos");
-        System.out.println(" 7) Quit");
+        System.out.println(" 4) Rename todo");
+        System.out.println(" 5) Show all todos");
+        System.out.println(" 6) Show active todos");
+        System.out.println(" 7) Show completed todos");
+        System.out.println(" 8) Quit");
         System.out.printf("%n> ");
     }
 

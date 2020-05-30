@@ -166,4 +166,20 @@ class TodoListTest {
         );
     }
 
+    @DisplayName("Rename a todo")
+    @Test
+    void renameTodo() {
+        final Todo todo = new Todo("Nothing");
+        final TodoList todoList = new TodoList();
+        todoList.add(todo);
+
+        assertEquals("Nothing", todo.getName());
+
+        assertTrue(todoList.renameTodo(todo.getId(), "Go to sleep!"));
+        assertEquals("Go to sleep!", todo.getName());
+
+        assertTrue(todoList.renameTodo(todo.getId(), null));
+        assertFalse(todoList.renameTodo(null, null));
+    }
+
 }
