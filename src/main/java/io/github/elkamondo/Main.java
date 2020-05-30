@@ -121,11 +121,6 @@ public class Main {
         final String todoId = in.next();
         in.nextLine();                  // Consume the newline character
 
-        if (!todoId.matches("^[0-9]+$")) {
-            System.err.println("Invalid input! You must enter an integer.");
-            return "";
-        }
-
         return todoId;
     }
 
