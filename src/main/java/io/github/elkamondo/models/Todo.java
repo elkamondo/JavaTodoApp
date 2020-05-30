@@ -3,7 +3,6 @@ package io.github.elkamondo.models;
 import io.github.elkamondo.utils.GeneratedIdentifier;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Todo implements Comparable<Todo>, GeneratedIdentifier {
@@ -20,9 +19,14 @@ public class Todo implements Comparable<Todo>, GeneratedIdentifier {
     }
 
     public Todo(String id, String name, boolean completed, LocalDateTime createdAt) {
+        this(id, name, completed, createdAt, null);
+    }
+
+    public Todo(String id, String name, boolean completed, LocalDateTime createdAt, LocalDateTime completedAt) {
         this.name = name;
         this.completed = completed;
         this.createdAt = createdAt;
+        this.completedAt = completedAt;
         this.id = id;
     }
 
@@ -30,20 +34,16 @@ public class Todo implements Comparable<Todo>, GeneratedIdentifier {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFormattedDate() {
-        return createdAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy H:m:s"));
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public boolean isCompleted() {
@@ -81,7 +81,7 @@ public class Todo implements Comparable<Todo>, GeneratedIdentifier {
             return false;
         }
 
-        final Todo todo = (Todo)obj;
+        final Todo todo = (Todo) obj;
         return Objects.equals(id, todo.id)
                 && Objects.equals(name, todo.name)
                 && Objects.equals(completed, todo.completed)
@@ -96,8 +96,8 @@ public class Todo implements Comparable<Todo>, GeneratedIdentifier {
     @Override
     public String toString() {
         return String.format(
-                "Todo={id=%s, name='%s', completed=%b, createdAt=%s}",
-                id, name, completed, getFormattedDate()
+                "Todo={id=%s, name='%s', completed=%b, createdAt=%s, completedAt=%s}",
+                id, name, completed, createdAt, completedAt
         );
     }
 

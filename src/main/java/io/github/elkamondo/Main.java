@@ -7,8 +7,13 @@ import io.github.elkamondo.utils.reports.TodoCSVReporter;
 import io.github.elkamondo.utils.reports.TodoReporter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Scanner;
+import java.util.function.BiFunction;
+
+import static io.github.elkamondo.utils.Constants.DEFAULT_DATETIME_FORMATTER;
 
 public class Main {
 
@@ -144,16 +149,29 @@ public class Main {
         }
 
         // Print table header
-        System.out.println("+-------+--------------------------------+-----------+--------------------+");
-        System.out.printf("| %-5s | %-30s | %-5s | %-18s |%n",
-                "id", "name", "completed", "createdAt");
-        System.out.println("+-------+--------------------------------+-----------+--------------------+");
+        final String tableBorder = "+----------+--------------------------------+-----------+---------------------+---------------------+";
+        final String tableRowFormat = "| %-8s | %-30s | %-9s | %-19s | %-19s |%n";
+        System.out.println(tableBorder);
+        System.out.printf(tableRowFormat, "id", "name", "completed", "createdAt", "completedAt");
+        System.out.println(tableBorder);
+
+        final BiFunction<String, Integer, String> truncate =
+                (string, maxWidth) ->
+                        string.length() > maxWidth
+                                ? string.substring(0, maxWidth - 3) + "..."
+                                : string;
+
+        final BiFunction<LocalDateTime, DateTimeFormatter, String> formatDate =
+                (dateTime, formatter) -> dateTime != null ? dateTime.format(formatter) : null;
 
         todos.forEach(todo ->
-                System.out.printf("| %s | %-30s | %-9b | %s |%n",
-                        todo.getId(), todo.getName(), todo.isCompleted(), todo.getFormattedDate())
+                System.out.printf(tableRowFormat,
+                        todo.getId(), truncate.apply(todo.getName(), 30), todo.isCompleted() ? "✅" : "❌",
+                        formatDate.apply(todo.getCreatedAt(), DEFAULT_DATETIME_FORMATTER),
+                        formatDate.apply(todo.getCompletedAt(), DEFAULT_DATETIME_FORMATTER)
+                )
         );
-        System.out.println("+-------+--------------------------------+-----------+--------------------+");
+        System.out.println(tableBorder);
     }
 
 }
