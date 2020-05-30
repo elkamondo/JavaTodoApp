@@ -53,7 +53,7 @@ public class Main {
                     break;
 
                     case 2: {
-                        show(todos.getActiveTodos());
+                        printTodos(todos.getActiveTodos());
                         System.out.printf("%nWhich one do you want to complete?%n");
 
                         final String todoId = prompt(in);
@@ -68,7 +68,7 @@ public class Main {
                     break;
 
                     case 3: {
-                        show(todos.getAllTodos());
+                        printTodos(todos.getAllTodos());
                         System.out.printf("%nWhich one do you want to remove?%n");
 
                         final String todoId = prompt(in);
@@ -83,15 +83,15 @@ public class Main {
                     break;
 
                     case 4:
-                        show(todos.getAllTodos());
+                        printTodos(todos.getAllTodos());
                         break;
 
                     case 5:
-                        show(todos.getActiveTodos());
+                        printTodos(todos.getActiveTodos());
                         break;
 
                     case 6:
-                        show(todos.getCompletedTodos());
+                        printTodos(todos.getCompletedTodos());
                         break;
 
                     case 7:
@@ -137,7 +137,7 @@ public class Main {
         System.out.printf("%n> ");
     }
 
-    private static void show(Collection<? extends Todo> todos) {
+    private static void printTodos(Collection<? extends Todo> todos) {
         if (todos.isEmpty()) {
             System.out.println("No todos found.");
             return;

@@ -8,12 +8,12 @@ import static java.util.stream.Collectors.toCollection;
 
 public class TodoList {
 
-    private static Comparator<Todo> BY_ID_THEN_NAME_THEN_DATE =
+    private static final Comparator<Todo> BY_ID_THEN_NAME_THEN_DATE =
             Comparator.comparing(Todo::getId)
                       .thenComparing(Todo::getName)
                       .thenComparing(Todo::getCreatedAt);
 
-    private Set<Todo> todos = new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE);
+    private final Set<Todo> todos = new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE);
 
     public TodoList() {}
 
@@ -70,8 +70,8 @@ public class TodoList {
 
         final Optional<Todo> completedTodo =
                 todos.stream()
-                        .filter(todo -> todoId.equals(todo.getId()))
-                        .findFirst();
+                     .filter(todo -> todoId.equals(todo.getId()))
+                     .findFirst();
 
         if (completedTodo.isPresent()) {
             final Todo todo = completedTodo.get();
@@ -98,14 +98,14 @@ public class TodoList {
     public Collection<? extends Todo> getActiveTodos() {
         final Predicate<Todo> isCompleted = Todo::isCompleted;
         return todos.stream()
-                .filter(isCompleted.negate())
-                .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
+                    .filter(isCompleted.negate())
+                    .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
     }
 
     public Collection<? extends Todo> getCompletedTodos() {
         return todos.stream()
-                .filter(Todo::isCompleted)
-                .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
+                    .filter(Todo::isCompleted)
+                    .collect(toCollection(() -> new TreeSet<>(BY_ID_THEN_NAME_THEN_DATE)));
     }
 
     @Override

@@ -31,11 +31,11 @@ class TodoTest {
     @DisplayName("Sort a todo list by name")
     @Test
     void sortTodo() {
-        Todo todo1 = new Todo("Learn Advanced Scala");
-        Todo todo2 = new Todo("Do Math Homework");
-        Todo todo3 = new Todo("learn JUnit 5");
+        final Todo todo1 = new Todo("Learn Advanced Scala");
+        final Todo todo2 = new Todo("Do Math Homework");
+        final Todo todo3 = new Todo("learn JUnit 5");
 
-        List<Todo> todoList = asList(todo1, todo2, todo3);
+        final List<Todo> todoList = asList(todo1, todo2, todo3);
         todoList.sort(Comparator.comparing(Todo::getName));
 
         assertAll("Sort todos by name",
@@ -48,8 +48,8 @@ class TodoTest {
     @DisplayName("Should be the same todos")
     @Test
     void sameTodo() {
-        Todo todo1 = new Todo("Shut down Hadoop cluster");
-        Todo todo2 = new Todo(todo1.getId(), todo1.getName(), todo1.isCompleted(), todo1.getCreatedAt());
+        final Todo todo1 = new Todo("Shut down Hadoop cluster");
+        final Todo todo2 = new Todo(todo1.getId(), todo1.getName(), todo1.isCompleted(), todo1.getCreatedAt());
 
         assertEquals(todo1, todo2, "todo1 same as todo2");
         assertEquals(0, todo1.compareTo(todo2));

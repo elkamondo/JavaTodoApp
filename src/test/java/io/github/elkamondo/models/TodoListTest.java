@@ -37,11 +37,13 @@ class TodoListTest {
     @DisplayName("Add todos")
     @Test
     void addTodos() {
-        TodoList todoList = new TodoList();
+        final TodoList todoList = new TodoList();
 
-        List<Todo> anotherTodos = asList(new Todo("Learn Spark"),
+        final List<Todo> anotherTodos = asList(
+                new Todo("Learn Spark"),
                 new Todo("Deploy Ubuntu container"),
-                new Todo("Do shopping"));
+                new Todo("Do shopping")
+        );
 
         assertFalse(todoList.add(null), "Do not add null");
         assertTrue(todoList.add(new Todo("A simple todo")), "Add a todo");
@@ -118,7 +120,7 @@ class TodoListTest {
     @DisplayName("Remove a todo")
     @Test
     void removeTodo() {
-        TodoList todoList = new TodoList();
+        final TodoList todoList = new TodoList();
         todoList.add(new Todo("T1", "Hang out with friends", true, LocalDateTime.now()));
 
         assertEquals(1, todoList.getAllTodos().size());
@@ -142,10 +144,10 @@ class TodoListTest {
     @DisplayName("Filter active and completed todos")
     @Test
     void filterTodos() {
-        Todo todo1 = new Todo("T1", "Learn Python", true, LocalDateTime.now());
-        Todo todo2 = new Todo("T2", "Learn R", false, LocalDateTime.now());
-        Todo todo3 = new Todo("T3", "Learn Scala", true, LocalDateTime.now());
-        TodoList todoList = new TodoList(asList(todo1, todo2, todo3));
+        final Todo todo1 = new Todo("T1", "Learn Python", true, LocalDateTime.now());
+        final Todo todo2 = new Todo("T2", "Learn R", false, LocalDateTime.now());
+        final Todo todo3 = new Todo("T3", "Learn Scala", true, LocalDateTime.now());
+        final TodoList todoList = new TodoList(asList(todo1, todo2, todo3));
 
         assertEquals(3, todoList.getAllTodos().size());
         assertEquals(1, todoList.getActiveTodos().size());

@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TodoCSVReporterTest {
 
+    private static final List<Todo> todoList = new ArrayList<>();
     private final String BACKUP_FILENAME = "test-todos.csv";
-    private static List<Todo> todoList = new ArrayList<>();
     private final TodoReporter csvReporter = new TodoCSVReporter();
 
     @BeforeAll
